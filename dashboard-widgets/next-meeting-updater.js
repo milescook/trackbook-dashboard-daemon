@@ -3,7 +3,6 @@ var weather_service = require('../weather-service.js');
 
 next_meeting_updater.process = function (widgets)
 {
-    console.log(widgets);
     widgets.forEach(next_meeting => {
         search_params = {};
         search_params.location = next_meeting.data_object.postcode;

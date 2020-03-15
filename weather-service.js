@@ -8,14 +8,13 @@ var api_key = nconf.get('TBD_WEATHER_API_KEY');
 
 weather_service.date_validates = function(date,date_now)
 {
-    
-    
     if(undefined==date_now)
-        date_now = Date.now();
+        date_now_unix = Math.floor(new Date() / 1000);
+    else
+        date_now_unix = Date.parse(date_now) / 1000;
 
-    
     date_check_unix = Date.parse(date) / 1000;
-    date_now_unix = Date.parse(date_now) / 1000;
+    
     max_diff = 60 * 60 * 24 * 10;
 
     return date_check_unix < date_now_unix || ( date_check_unix - date_now_unix < max_diff);
@@ -23,8 +22,11 @@ weather_service.date_validates = function(date,date_now)
 // WeatherAPI.com
 weather_service.get_by_search = function(search_params,next_meeting,callback){
     if(!weather_service.date_validates(search_params.date))
+    {
+        console.log("Date not valid for API call: "+search_params.date);
         return;
-
+    }
+    console.log("Getting weather for date "+ search_params.date);
     host = "api.weatherapi.com";
     path = "/v1/forecast.json";
     params = "?key=" + api_key + "&q=" + search_params.location + "&dt=" + search_params.date;

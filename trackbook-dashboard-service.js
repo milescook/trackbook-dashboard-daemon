@@ -55,7 +55,6 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
 		res.on('end', function() 
 		{
             console.log("Trackbook API Returned:");
-            console.log(responseString);
             return_object = JSON.parse(responseString);
             
             console.log(return_object);
