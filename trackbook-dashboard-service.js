@@ -48,6 +48,7 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
 		res.on('end', function() 
 		{
             return_object = JSON.parse(responseString);
+            console.log("Trackbook API Returned:");
             console.log(return_object);
             callback(return_object);
 		});
@@ -58,7 +59,6 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
 }
 trackbook_dashboard_service.update_widget = function(widget)
 {
-    console.log(widget);
     path = "/dashboardWidgets/edit/"+widget.id;
     
         var postBodyString = querystring.stringify(widget);
