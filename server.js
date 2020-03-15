@@ -7,8 +7,16 @@ nconf.env().file({ file: 'config.json' })
 
 var updates_dashboard_every_seconds = nconf.get('TBD_UPDATES_DASHBOARDS_EVERY_SECONDS');
 
+
+main_loop();
+
 setInterval(function(){
-    trackbook_dashboard_service.get_by_widget('next-meeting',next_meeting_updater.process);
+   main_loop();
 }, updates_dashboard_every_seconds * 1000);
 
 
+function main_loop()
+{
+    console.log("Updating dashboards");
+    trackbook_dashboard_service.get_by_widget('next-meeting',next_meeting_updater.process);
+}

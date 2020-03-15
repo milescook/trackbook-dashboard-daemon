@@ -20,6 +20,8 @@ var trackbook_headers =
 trackbook_dashboard_service.get_by_widget = function (widget,callback)
 {
     path = "/dashboardWidgets/byWidgetType/next-meeting";
+    console.log("Fetching widgets from: "+trackbook_host+path);
+    
     var request_options = {
         host: trackbook_host,
         port: trackbook_port,
