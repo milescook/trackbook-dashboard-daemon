@@ -20,7 +20,7 @@ var trackbook_headers =
 trackbook_dashboard_service.get_by_widget = function (widget,callback)
 {
     path = "/dashboardWidgets/byWidgetType/next-meeting";
-    console.log("Fetching widgets from: "+trackbook_host+path);
+    console.log("Fetching widgets from: "+trackbook_host+path+" on port "+trackbook_port);
     
     var request_options = {
         host: trackbook_host,
@@ -49,8 +49,9 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
 
 		res.on('end', function() 
 		{
-            return_object = JSON.parse(responseString);
             console.log("Trackbook API Returned:");
+            return_object = JSON.parse(responseString);
+            
             console.log(return_object);
             callback(return_object);
 		});
