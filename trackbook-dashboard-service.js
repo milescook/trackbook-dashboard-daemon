@@ -1,5 +1,6 @@
 var request = require('requestretry');
 var http = require('http');
+var https = require('https');
 var querystring = require('querystring');
 var nconf = require('nconf')
 
@@ -26,21 +27,25 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
         host: trackbook_host,
         port: trackbook_port,
         path: path,
-		maxAttempts: 1,
-		retryDelay: 5000,
+		maxAttempts: 3,
+		retryDelay: 1000,
         headers: trackbook_headers
     };
         
-   
+   if(trackbook_port==443)
+    request_handler = https;
+    else
+    request_handler = http;
 	
-	var req = http.request(request_options, function(res) 
+	var req = request_handler.request(request_options, function(res) 
 	{
 		res.setEncoding('utf-8');
 			
 		var responseString = '';
 		res.on('data', function(data) 
 		{
-			responseString += data;
+            responseString += data;
+            console.log(data);
 		});
 			
 		res.on("error", function(err){
@@ -50,12 +55,15 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
 		res.on('end', function() 
 		{
             console.log("Trackbook API Returned:");
+            console.log(responseString);
             return_object = JSON.parse(responseString);
             
             console.log(return_object);
             callback(return_object);
 		});
-	});
+	}).on("error", (err) => {
+        console.log("Error: " + err.message);
+      });
 
 	req.end();
 

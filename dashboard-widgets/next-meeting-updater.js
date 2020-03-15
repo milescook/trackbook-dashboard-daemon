@@ -22,6 +22,8 @@ next_meeting_updater.update_weather = function(weather,next_meeting)
     next_meeting.data_object = JSON.stringify(next_meeting.data_object);
     next_meeting.last_updated = new Date().toISOString().slice(0, 19).replace('T', ' ');
     next_meeting_updater.update_meeting_data(next_meeting);
+    console.log("SETTING WEATHER:")
+    console.log(next_meeting.data_object.weather);
 }
 
 

@@ -60,6 +60,8 @@ weather_service.get_by_search = function(search_params,next_meeting,callback){
 		res.on('end', function() 
 		{
             return_object = JSON.parse(responseString);
+            console.log('Got weather Object:')
+            console.log(return_object);
             callback(return_object,next_meeting);
 		});
 	});
