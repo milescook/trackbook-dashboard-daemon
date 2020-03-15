@@ -85,8 +85,12 @@ trackbook_dashboard_service.update_widget = function(widget)
                 'Authorization': trackbook_api_auth
             }
         };
-        
-        var req = http.request(options, function(res) {
+        if(trackbook_port==443)
+        request_handler = https;
+        else
+        request_handler = http;
+
+        var req = request_handler.request(options, function(res) {
                 res.setEncoding('utf-8');
         
                 var responseString = '';
