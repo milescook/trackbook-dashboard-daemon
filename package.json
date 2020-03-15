@@ -1,0 +1,23 @@
+{
+  "name": "trackbook-dashboard-daemon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http": "0.0.0",
+    "mocha": "^7.1.0",
+    "nconf": "^0.10.0",
+    "querystring": "^0.2.0",
+    "request": "^2.88.2",
+    "requestretry": "^4.1.0"
+  }
+}

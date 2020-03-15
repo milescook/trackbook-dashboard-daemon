@@ -1,0 +1,9 @@
+{
+    "name": "Treackbook Dashboard Daemon",
+    "description": "Via the Trackbook API, this updates dashboard data.",
+    "repository": "",
+    "logo": "",
+    "keywords": ["node", "express", "static"],
+    "image": ""
+  }
+  
