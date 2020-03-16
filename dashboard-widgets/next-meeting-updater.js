@@ -7,23 +7,35 @@ next_meeting_updater.process = function (widgets)
         search_params = {};
         search_params.location = next_meeting.data_object.postcode;
         search_params.date = next_meeting.data_object.date;
-        weather_service.get_by_search(search_params,next_meeting,next_meeting_updater.update_weather );
-    }); 
+        const day_weather_call = new Promise(resolve => weather_service.get_by_search(search_params,resolve));
+
+        Promise.all([day_weather_call]).then(function(return_values){
+            next_meeting = next_meeting_updater.add_weather_updates(return_values,next_meeting);
+        next_meeting_updater.update_meeting_data(next_meeting);
+        });
+     
+});
 }
 
-next_meeting_updater.update_weather = function(weather,next_meeting)
+// Expects an array of weather results: 0 => day, 1..n => n sessions
+next_meeting_updater.add_weather_updates = function(weather_results,next_meeting)
 {
-    weather_object = {};
-    next_meeting.data_object.weather.temp_low = weather.forecast.forecastday[0].day.mintemp_c;
-    next_meeting.data_object.weather.temp_high = weather.forecast.forecastday[0].day.maxtemp_c;
-    next_meeting.data_object.weather.condition_text = weather.forecast.forecastday[0].day.condition.text;
-    next_meeting.data_object.weather.graphic = weather.forecast.forecastday[0].day.condition.icon;
-    console.log(next_meeting.data_object.weather);
+    next_meeting.data_object.weather = next_meeting_updater.parse_meeting_weather(weather_results[0].forecast.forecastday[0].day);
     next_meeting.data_object = JSON.stringify(next_meeting.data_object);
     next_meeting.last_updated = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    next_meeting_updater.update_meeting_data(next_meeting);
-    console.log("SETTING WEATHER:")
+    return next_meeting;
+}
+
+next_meeting_updater.parse_meeting_weather = function(weather)
+{
+    console.log("Returning meeting with weather");
+    weather_object = {};
+    weather_object.temp_low = weather.mintemp_c;
+    weather_object.temp_high = weather.maxtemp_c;
+    weather_object.condition_text = weather.condition.text;
+    weather_object.graphic = weather.condition.icon;
     
+    return weather_object;
 }
 
 

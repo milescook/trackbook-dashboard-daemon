@@ -45,7 +45,6 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
 		res.on('data', function(data) 
 		{
             responseString += data;
-            console.log(data);
 		});
 			
 		res.on("error", function(err){
@@ -57,7 +56,6 @@ trackbook_dashboard_service.get_by_widget = function (widget,callback)
             console.log("Trackbook API Returned:");
             return_object = JSON.parse(responseString);
             
-            console.log(return_object);
             callback(return_object);
 		});
 	}).on("error", (err) => {
